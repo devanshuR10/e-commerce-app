@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Info</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/home.css" />
+
+  <!-- Internal Styles -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background-color: #FFFADC;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #A4DD00;
+      padding: 15px 20px;
+    }
+
+    .logo_div {
+      flex: 1 1 150px;
+    }
+
+    .logo {
+      height: 50px;
+      width: auto;
+    }
+
+    .search_button {
+      flex: 3 1 400px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .input_search {
+      flex: 1 1 200px;
+      padding: 8px 12px;
+      border: 2px solid #B6F500;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #FFFADC;
+    }
+
+    .search_bar_button,
+    .cart_button,
+    .host_button,
+    .login {
+      padding: 8px 14px;
+      background-color: #98CD00;
+      border: none;
+      border-radius: 5px;
+      color: #222;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .search_bar_button:hover,
+    .cart_button:hover,
+    .host_button:hover {
+      background-color: #B6F500;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .search_button {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .input_search,
+      .search_bar_button,
+      .cart_button,
+      .host_button {
+        width: 100%;
+      }
+    }
+
+    footer {
+      background-color: #A4DD00;
+      padding: 30px 20px;
+      margin-top: 40px;
+      color: #222;
+    }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer .column {
+      flex: 1 1 200px;
+    }
+
+    .footer .column h3 {
+      margin-bottom: 10px;
+    }
+
+    .footer .column a {
+      display: block;
+      text-decoration: none;
+      color: #222;
+      margin: 5px 0;
+      transition: color 0.2s ease;
+    }
+
+    .footer .column a:hover {
+      color: #555;
+    }
+
+    .footer-bottom {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo_div">
+      <img class="logo" src="/images/logo.jpg" alt="Logo" />
+    </div>
+
+    <div class="search_button">
+      <form action="/search" method="GET">
+        <input class="input_search" type="text" name="query" placeholder="Search for products..." required />
+        <button class="search_bar_button" type="submit">Search</button>
+      </form>
+      <a class="login" href="/logout">Logout</a>
+      <button class="cart_button">Check Cart</button>
+      <button class="host_button">Login as Host</button>
+    </div>
+  </header>
+
+  <!-- Product Info Section -->
+  <div class="container mt-5">
+    <h1 class="mb-4">Product Details</h1>
+    <% if (product) { %>
+      <div class="card p-4">
+        <h3><%= product.name %></h3>
+        <p><strong>Product ID:</strong> <%= product.product_id %></p>
+        <p><strong>Stock:</strong> <%= product.stock %></p>
+        <p><strong>Price:</strong> ₹<%= product.price %></p>
+        <p><strong>Description:</strong> <%= product.description %></p>
+      </div>
+    <% } else { %>
+      <p>Product not found.</p>
+    <% } %>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer">
+      <div class="column">
+        <h3>Sell It</h3>
+        <p>Your trusted marketplace for selling and buying with ease.</p>
+      </div>
+
+      <div class="column">
+        <h3>Quick Links</h3>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">How It Works</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <div class="column">
+        <h3>Support</h3>
+        <a href="#">FAQs</a>
+        <a href="#">Help Center</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2025 Sell It. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>

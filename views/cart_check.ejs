@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="home.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet" />
+  <title>Your Cart</title>
+  <style>
+    html, body { height: 100%; margin: 0; font-family: 'Montserrat', sans-serif; }
+    .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; padding: 30px; }
+    .cart_div { padding: 30px; }
+    .footer {
+      background-color: #A4DD00; color: #222; padding: 40px 20px;
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+    }
+    .footer .column { flex: 1 1 200px; margin: 10px; }
+    .footer h3 { color: #FFFADC; }
+    .footer a { color: #222; text-decoration: none; margin-bottom: 8px; display: block; }
+    .footer a:hover { color: #B6F500; }
+    .footer-bottom { background-color: #98CD00; text-align: center; padding: 15px; }
+    @media (max-width: 600px) { .footer { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <header style="background-color: #A4DD00; display: flex; justify-content: center; align-items: center; height: 100px;">
+      <img src="/images/logo.jpg" alt="Logo" style="height: 80px;" />
+      <h1 style="font-family: 'Special Gothic Expanded One', sans-serif; margin-left: 20px;">CART</h1>
+    </header>
+
+    <main class="cart_div">
+      <h2 style="text-align: center; font-family: 'Special Gothic Expanded One';">Your Shopping Cart</h2>
+
+      <% if (products.length > 0) { %>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <ul style="list-style: none; padding: 0;">
+
+          <% let sum = 0; %>
+          <% products.forEach(function(product) {
+            /* price stored as numeric in DB â€” cast to Number just in case it comes as string */
+            const price = Number(product.price);
+            if (!isNaN(price)) { sum += price * product.quantity; }
+          %>
+          <li style="border: 2px solid #A4DD00; border-radius: 15px; margin-bottom: 20px; padding: 20px; background: #FFFADC; box-shadow: 0 2px 8px rgba(164,221,0,0.08);">
+            <h3><%= product.item_name %></h3>
+            <p>Product ID: <strong><%= product.product_id %></strong></p>
+            <p>Quantity: <strong><%= product.quantity %></strong></p>
+            <p style="color: #98CD00; font-size: 18px;">
+              Price: <strong>$<%= Number(product.price).toFixed(2) %></strong>
+            </p>
+            <form action="/cart/remove/<%= product.product_id %>" method="POST">
+              <button type="submit"
+                style="border: 2px solid #B6F500; background-color: #B6F500; color: #222; border-radius: 10px; padding: 5px 15px;">
+                Remove
+              </button>
+            </form>
+          </li>
+          <% }); %>
+        </ul>
+
+        <!-- Total -->
+        <h4 style="text-align: center; font-family: 'Special Gothic Expanded One'; margin-top: 30px;">
+          Total Amount = $<%= sum.toFixed(2) %>
+        </h4>
+
+        <!-- Checkout -->
+        <form action="/cart/checkout/<%= username %>" method="GET" style="text-align: center; margin-top: 20px;">
+          <button type="submit"
+            style="border: 4px solid #98CD00; background-color: #98CD00; color: #FFFADC; border-radius: 20px; padding: 10px 30px; font-size: 18px;">
+            Checkout
+          </button>
+        </form>
+
+        <!-- Continue Shopping -->
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="/">
+            <button style="border: 4px solid #98CD00; background-color: #98CD00; color: #FFFADC; border-radius: 20px; padding: 10px 30px;">
+              Continue Shopping
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <% } else { %>
+        <p style="color: #B6F500; font-size: 20px; text-align: center;">Your cart is empty.</p>
+        <div style="text-align: center;">
+          <a href="/">
+            <button style="border: 4px solid #98CD00; background-color: #98CD00; color: #FFFADC; border-radius: 20px; padding: 10px 30px;">
+              Start Shopping
+            </button>
+          </a>
+        </div>
+      <% } %>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer">
+        <div class="column">
+          <h3>Sell It</h3>
+          <p>Your trusted marketplace for buying and selling.</p>
+        </div>
+        <div class="column">
+          <h3>Quick Links</h3>
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="column">
+          <h3>Support</h3>
+          <a href="#">Help</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2025 Sell It. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script src="cart.js"></script>
+</body>
+</html>
